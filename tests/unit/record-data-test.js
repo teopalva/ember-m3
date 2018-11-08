@@ -707,6 +707,9 @@ module('unit/record-data', function(hooks) {
       assert.deepEqual(
         zip(didCommitSpy.thisValues.slice(1).map(x => x + ''), didCommitSpy.args.slice(1)),
         [
+          [this.child1RecordData + '', []],
+          [this.child11RecordData + '', []],
+          [this.child2RecordData + '', []],
           [
             this.child1RecordData + '',
             [
@@ -721,6 +724,7 @@ module('unit/record-data', function(hooks) {
               true,
             ],
           ],
+          [this.child11RecordData + '', []],
           [
             this.child11RecordData + '',
             [
