@@ -223,6 +223,8 @@ export default class M3RecordData {
           // we don't re-use nested models within arrays so there's no need to
           // propagate willCommit/didCommit
           childRecordData.willCommit();
+        } else {
+          childRecordData.forEach(child => child.willCommit());
         }
       }
     }
@@ -259,6 +261,21 @@ export default class M3RecordData {
       // as part of notifying all projections
       return [];
     }
+
+    if (this.__childRecordDatas) {
+      let nestedKeys = Object.keys(this._childRecordDatas);
+      for (let i = 0; i < nestedKeys.length; ++i) {
+        let childKey = nestedKeys[i];
+        let childRecordData = this._childRecordDatas[childKey];
+        if (!Array.isArray(childRecordData)) {
+          // we don't re-use nested models within arrays so there's no need to
+          // propagate willCommit/didCommit
+          //childRecordData.didCommit();
+        } else {
+          childRecordData.forEach(child => child.didCommit());
+        }
+      }
+    }
     let attributes;
     if (jsonApiResource) {
       attributes = jsonApiResource.attributes;
@@ -268,10 +285,11 @@ export default class M3RecordData {
     this._inFlightAttributes = null;
 
     let changedKeys;
-    if (attributes !== undefined) {
-      changedKeys = this._mergeUpdates(attributes, commitDataAndNotify, true);
-      changedKeys = this._filterChangedKeys(changedKeys);
-    }
+    debugger;
+    //if (attributes !== undefined) {
+    changedKeys = this._mergeUpdates(attributes, commitDataAndNotify, true);
+    changedKeys = this._filterChangedKeys(changedKeys);
+    //}
 
     this._updateChangedAttributes();
 
