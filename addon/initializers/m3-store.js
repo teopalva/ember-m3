@@ -30,6 +30,14 @@ const STORE_OVERRIDES = {
     return this._super(modelName);
   },
 
+  _relationshipsDefinitionFor: function(modelName) {
+    return Object.create(null);
+  },
+
+  _attributesDefinitionFor: function(modelName, id) {
+    return this.recordDataFor(modelName, id).attributesDef();
+  },
+
   adapterFor(modelName) {
     if (get(this, '_schemaManager').includesModel(modelName)) {
       return this._super('-ember-m3');
@@ -42,6 +50,15 @@ const STORE_OVERRIDES = {
       return this._super('-ember-m3');
     }
     return this._super(modelName);
+  },
+
+  instantiateRecord(modelName, createOptions) {
+    // TODO NOW deal with this
+    if (get(this, '_schemaManager').includesModel(modelName)) {
+      delete createOptions.container;
+      return new MegamorphicModel(createOptions);
+    }
+    return this._super(modelName, createOptions);
   },
 
   /**
