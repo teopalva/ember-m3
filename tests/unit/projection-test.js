@@ -1825,7 +1825,7 @@ module('unit/projection', function(hooks) {
           attr === 'publisher' &&
           value &&
           value.constructor &&
-          value.constructor.isModel
+          (value.constructor.isModel || value.constructor.isM3Model)
         ) {
           schemaInterface.setAttr(attr, NEW_PUBLISHER_URN);
           return;

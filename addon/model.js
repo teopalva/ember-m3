@@ -152,9 +152,14 @@ export default class MegamorphicModel extends EmberObject {
     }
   }
 
+  static get isM3Model() {
+    return true;
+  }
+  /*
   static get isModel() {
     return true;
   }
+  */
 
   static create(properties) {
     return new this(properties);
